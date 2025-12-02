@@ -61,6 +61,147 @@ Key users and roles:
 - Input validation using `Joi` and centralized error responses.
 - Structured logging using `winston` and simple health-check endpoints.
 
+## Implementation Details
+
+- **Entry point & API prefix:** The backend entrypoint is `Backend/app.js`. The
+  Express app mounts routes under the `/api/v1` prefix (via
+  `app.use('/api/v1', routes)`).
+
+- **Database & ORM:** Sequelize is configured in `Backend/config/dbConfig.js`
+  and models are defined under `Backend/models/`. On startup the app runs
+  `sequelize.sync({ alter: true })` to synchronize models to the database —
+  convenient for development but use migrations for production environments.
+
+- **Models & Associations:** Primary models include `User`, `Book`, and
+  `BookIssue`. Associations are declared in `Backend/models/index.js` (e.g.,
+  `User.hasMany(BookIssue)`, `Book.hasMany(BookIssue)`). Note that
+  `models/index.js` currently imports `BookIssue` for associations but only
+  exports `User` and `Book`; consider exporting `BookIssue` too if other modules
+  need it.
+
+- **Authentication & Authorization:**
+  - JWT-based auth is implemented in `Backend/utils/jwt.js` (`generateToken`,
+    `verifyToken`).
+  - `Backend/middleware/authMiddleware.js` (`checkAuthJWT`) extracts and
+    verifies the Bearer token, loads the user by primary key, and attaches
+    `req.user = { id, role }`.
+  - `Backend/middleware/roleMiddleware.js` accepts a role or array of roles and
+    enforces role-based access control for route handlers.
+
+- **Standardized responses:** `Backend/middleware/responseMiddleware.js`
+  attaches `res.sendResponse(...)` and `res.sendError(...)` helpers so
+  controllers return a consistent JSON shape across the API.
+
+- **Controllers, Services & Validation:** Controllers live in
+  `Backend/controllers/` and delegate database/business logic to
+  `Backend/services/`. Request validation uses `Joi` schemas in
+  `Backend/validation/` to keep controllers thin and predictable.
+
+- **Email & Events:** The app uses an internal `eventEmitter`
+  (`utils/eventEmitter.js`). `utils/sendMail.js` registers a `sendEmail`
+  listener at startup (it is required by `app.js`), which passes email jobs to
+  `Backend/config/email.js`. This decouples sending emails from request
+  handling.
+
+- **Logging & errors:** `winston` is configured in `Backend/utils/logger.js`.
+  `app.js` logs requests and startup actions; controllers should call
+  `next(err)` for unexpected errors to allow centralized error handling.
+
+- **Routing overview:** Routes are organized under `Backend/routes/` and mounted
+  in `Backend/routes/index.js` (examples include `/auth`, `/users`, `/book`,
+  `/book-issues`, and dashboards). Middleware (auth/role/validation) is applied
+  per-route as needed.
+
+- **Frontend integration:** The Angular frontend expects the backend API base
+  URL to be configured in `Frontend/src/app/app.config.ts` (or an equivalent
+  config file) and calls the `/api/v1/*` endpoints.
+
+- **Development cautions:**
+  - `sequelize.sync({ alter: true })` can change DB schema; prefer explicit
+    migrations in production.
+  - Ensure sensitive environment variables (`JWT_SECRET`, DB and email
+    credentials) are set in `.env` and not committed.
+  - Double-check `models/index.js` exports if other modules import models from
+    that file.
+
+## Frontend UI Summary
+
+This project uses Angular standalone components and Angular Material for
+interactive UI pieces (dialogs, snack/toasts, icons, datepicker). The UI stores
+authentication state in `sessionStorage` (`jwt` and `role`) and the router
+guards (`AuthGuard`, `RoleGuard`) use that to protect routes.
+
+Pages / Views and key implementation notes:
+
+- **Home (`/`)**: Simple landing page component under `src/app/home/`. Minimal
+  layout and links to login/signup and books.
+
+- **Auth (Login / Signup)**:
+  - Implemented as standalone components using reactive forms (`Login`) and
+    `ReactiveFormsModule`/`FormBuilder` (`Signup`) with client-side validation.
+  - `Login` calls `AuthService.login()` and shows server errors using
+    `ToastService` (Angular Material `MatSnackBar`).
+  - `Signup` enforces password rules with a custom validator and displays
+    field-level errors.
+
+- **Books Listing (`/books`)**:
+  - `BooksComponent` (`src/app/books/book-list/`) shows a responsive card grid
+    of books with search. Search is debounced using an RxJS `Subject` with
+    `debounceTime` and `distinctUntilChanged` to reduce API/UI work.
+  - Librarian users see `Edit` and `Delete` controls; members see
+    `Request Issue` buttons. Role detection uses
+    `sessionStorage.getItem('role')`.
+  - Add/Edit flows use `BookCreateDialog` (Material `MatDialog`) with a
+    template-driven form and client-side validation for image URL and fields.
+  - Requesting a book opens `BookRequestDialog` that accepts either a typed
+    YYYY-MM-DD date or a Material datepicker; it validates the date and prevents
+    past dates.
+
+- **My Requests (`/myRequests`)**:
+  - `MyRequestsComponent` lists the current user's issue requests, attaches book
+    titles by calling `BookService.detail()` for missing titles, and supports
+    requesting returns via a `ConfirmDialog`.
+
+- **Dashboards (Super Admin & Librarian)**:
+  - Implemented in `src/app/dashboard/`.
+  - Both dashboards fetch stats, lists, and issue data via `DashboardService`
+    and `BookIssueService` and present tabbed views (daily, users, issued,
+    overdue, etc.). They normalize incoming API payloads defensively and attach
+    member/book details when the API returns minimal objects.
+  - Important: The Super Admin and Librarian dashboards use AdminLTE visual
+    components and classes (the project includes `admin-lte` in dependencies).
+    The templates use AdminLTE patterns such as `small-box`, `bg-gradient-*`,
+    `icon` and table styles so the dashboards visually match the AdminLTE theme.
+
+- **Shared UI components:**
+  - `Navbar`: top navigation that reads `sessionStorage` to show role-specific
+    links and a logout that clears session storage and reloads the app.
+  - `ConfirmDialog`: small Material dialog used for confirmations (delete,
+    return, etc.).
+  - `ToastService`: centralized snack/toast wrapper using `MatSnackBar`.
+  - `OverdueDetailsDialog`: dialog showing details for overdue items and a
+    button to trigger the backend `notifyOverdue` email action.
+  - `NotFound`: a simple 404 component for unknown routes.
+
+- **HTTP & Interceptors:**
+  - `auth.interceptor.ts` attaches the `Authorization: Bearer <token>` header to
+    outgoing HTTP requests when a JWT is present in `sessionStorage`.
+  - Services use a local `base` URL (`http://localhost:3000/api/v1`) and map
+    backend responses defensively (normalize `data` wrappers and arrays).
+
+- **UX patterns & accessibility:**
+  - Dialogs use `MatDialog` and include ARIA roles when appropriate.
+  - Loading states and basic keyboard-focus friendly patterns are present (e.g.,
+    `loading` flags, role attributes on status elements).
+
+Notes & Recommendations:
+
+- Consider centralizing API base URL via an environment file or `app.config`.
+- Replace `sessionStorage` role checks with a shared Auth service to avoid
+  duplication and improve testability.
+- Verify that AdminLTE CSS/JS are loaded in `index.html` (or via Angular styles)
+  so dashboard classes render correctly in all environments.
+
 ## Project Specification
 
 **Overview:**
