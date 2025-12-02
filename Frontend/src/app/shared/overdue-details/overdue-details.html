@@ -1,0 +1,17 @@
+<div class="overdue-details">
+  <h2>Overdue Details</h2>
+  <hr>
+  <div class="row"><span class="label">Book Title</span><span class="value">{{ data?.title || data?.book?.title || '-' }}</span></div>
+  <div class="row"><span class="label">Issued Date</span><span class="value">{{ formatDate(data?.issue_date ?? data?.issued_at ?? data?.issuedAt) }}</span></div>
+  <div class="row"><span class="label">Return Date</span><span class="value">{{ formatDate(data?.return_date ?? data?.returnDate) }}</span></div>
+  <div class="row"><span class="label">Overdue Period</span><span class="value">{{ overdueText }}</span></div>
+  <hr />
+  <div class="row"><span class="label">Member Name</span><span class="value">{{ memberName }}</span></div>
+  <div class="row"><span class="label">Email</span><span class="value">{{ email }}</span></div>
+  <div class="row"><span class="label">Phone</span><span class="value">{{ phone }}</span></div>
+
+  <div class="actions">
+    <button mat-button (click)="contactUser()">Contact User</button>
+    <button mat-button (click)="close()">Close</button>
+  </div>
+</div>

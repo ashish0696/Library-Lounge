@@ -1,0 +1,22 @@
+<div class="auth-wrap">
+  <div class="card">
+    <h2><mat-icon class="mt-iconLogin">verified_user</mat-icon>Login</h2>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+      <label>Email</label>
+      <input formControlName="email" type="email" placeholder="you@example.com">
+      <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" style="color:red; font-size:0.9em;">
+        <span *ngIf="form.get('email')?.errors?.['required']">Email is required.</span>
+        <span *ngIf="form.get('email')?.errors?.['email']">Invalid email format.</span>
+      </div>
+      <label>Password</label>
+      <input type="password" formControlName="password" placeholder="••••••••">
+      <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" style="color:red; font-size:0.9em;">
+        <span *ngIf="form.get('password')?.errors?.['required']">Password is required.</span>
+        <span *ngIf="form.get('password')?.errors?.['minlength']">Password must be at least 8 characters.</span>
+      </div>
+      <button class="primary" [disabled]="form.invalid || loading"><mat-icon class="mt-iconAuth">how_to_reg</mat-icon>Login</button>
+    </form>
+    <a class="muted" routerLink="/signup"><mat-icon class="mt-iconAuth">person_add</mat-icon>Create account</a>
+    <div *ngIf="error" class="error">{{error}}</div>
+  </div>
+</div>

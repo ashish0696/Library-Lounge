@@ -1,0 +1,24 @@
+<nav class="nav">
+  <a id="brand" routerLink="" routerLinkActive="active">
+   <mat-icon> local_library</mat-icon>Library Lounge
+  </a>
+  <span class="spacer"></span>
+
+  <a routerLink="/" id="home" routerLinkActive="active"><mat-icon class="mt-icon">home</mat-icon>Home</a>
+  <a routerLink="/books" routerLinkActive="active"><mat-icon class="mt-icon"> import_contacts</mat-icon>Books</a>
+
+  <ng-container *ngIf="isAuthed(); else guestLinks">
+    <a *ngIf="isAdmin()" routerLink="/admin" routerLinkActive="active"><mat-icon class="mt-icon">admin_panel_settings</mat-icon>Admin</a>
+    <!-- Show My Requests only to users with role 'member' -->
+  <a *ngIf="isLibrarian()" routerLink="/librarian" routerLinkActive="active"><mat-icon class="mt-icon">dashboard</mat-icon>MyLibrary</a>
+
+    <a *ngIf="userRole() === 'member'" routerLink="/myRequests" routerLinkActive="active"><mat-icon class="mt-iconAuth">format_list_bulleted</mat-icon>My Requests</a>
+    <button (click)="logout()"><mat-icon class="mt-icon">power_settings_new</mat-icon>Logout</button>
+    
+  </ng-container>
+
+  <ng-template #guestLinks>
+    <a routerLink="/login" routerLinkActive="active"><mat-icon class="mt-iconAuth">how_to_reg</mat-icon>Login</a>
+    <a routerLink="/signup" routerLinkActive="active"><mat-icon class="mt-iconAuth">person_add</mat-icon>Signup</a>
+  </ng-template>
+</nav>

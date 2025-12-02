@@ -1,0 +1,125 @@
+.auth-wrap {
+    min-height: calc(100vh - 76px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(#ecf7f9, #adebf6) padding-box,
+        linear-gradient(90deg, #0f4c75, #3282b8) border-box;
+}
+
+.card {
+    width: 100%;
+    max-width: 380px;
+    background: linear-gradient(rgb(237, 237, 237), rgb(237, 237, 237)) padding-box,
+        linear-gradient(135deg, #18454d, #127485) border-box;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .06);
+    padding: 22px
+}
+
+h2 {
+    margin: 0 0 12px;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+label {
+    font-size: 12px;
+    color: #080808
+}
+
+input {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none
+}
+
+input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, .15)
+}
+
+.primary {
+    margin-top: 6px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer
+}
+
+.primary[disabled] {
+    opacity: .7;
+    cursor: not-allowed
+}
+
+.primary:hover:not([disabled]) {
+    background: #1d4ed8
+}
+
+.muted {
+    display: inline-block;
+    margin-top: 10px;
+    color: #760465;
+    text-decoration: none
+}
+
+.muted:hover {
+    color: #BE2053
+}
+
+.error {
+    color: #b91c1c;
+    margin-top: 8px
+}
+
+@media (max-width: 575.98px) {
+    .card {
+        padding: 14px;
+        max-width: 96%;
+    }
+
+    input {
+        padding: 8px 10px
+    }
+
+    h2 {
+        font-size: 20px
+    }
+
+    .auth-wrap {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+.mt-iconAuth {
+    font-size: 18px;
+    color: #070707;
+    vertical-align: middle;
+    margin-right: 4px;
+    padding-top: 3px;
+}
+
+.mt-iconLogin {
+    font-size: 20px;
+    color: #070707;
+    vertical-align: middle;
+    margin-right: 2px;
+    padding-top: 0;
+    display: inline-flex;
+    align-items: center;
+}

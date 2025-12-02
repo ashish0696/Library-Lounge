@@ -1,0 +1,60 @@
+<div class="create-book-dialog" role="dialog" aria-modal="true">
+  <h2 class="dialog-title"><mat-icon>library_add</mat-icon>
+    {{ editingId ? 'Edit Book' : 'Add Book' }}</h2>
+
+  <form #bookForm="ngForm" (ngSubmit)="confirm(bookForm)">
+    <mat-dialog-content class="dialog-scroll">
+      <div *ngIf="error" class="error" role="alert">{{ error }}</div>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Title</mat-label>
+        <input matInput name="title" required [(ngModel)]="title" #titleRef="ngModel" />
+        <mat-error *ngIf="titleRef.invalid && (titleRef.dirty || titleRef.touched)">
+          <span *ngIf="titleRef.errors?.['required']">Title is required</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Author</mat-label>
+        <input matInput name="author" required [(ngModel)]="author" #authorRef="ngModel" />
+        <mat-error *ngIf="authorRef.invalid && (authorRef.dirty || authorRef.touched)">
+          <span *ngIf="authorRef.errors?.['required']">Author is required</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Publisher</mat-label>
+        <input matInput name="publisher" required [(ngModel)]="publisher" #publisherRef="ngModel" />
+        <mat-error *ngIf="publisherRef.invalid && (publisherRef.dirty || publisherRef.touched)">
+          <span *ngIf="publisherRef.errors?.['required']">Publisher is required</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Category</mat-label>
+        <input matInput name="category" required [(ngModel)]="category" #categoryRef="ngModel" />
+        <mat-error *ngIf="categoryRef.invalid && (categoryRef.dirty || categoryRef.touched)">
+          <span *ngIf="categoryRef.errors?.['required']">Category is required</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Image URL</mat-label>
+        <input matInput name="imageUrl" required pattern="https?://.+" [(ngModel)]="imageUrl" #imageRef="ngModel" />
+        <mat-error *ngIf="imageRef.invalid && (imageRef.dirty || imageRef.touched)">
+          <span *ngIf="imageRef.errors?.['required']">Image URL is required</span>
+          <span *ngIf="imageRef.errors?.['pattern']">Image URL must start with http:// or https://</span>
+        </mat-error>
+      </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="actions">
+      <button type="button" mat-button (click)="cancel()" [disabled]="loading"><mat-icon>clear</mat-icon> Cancel</button>
+      <button type="submit" mat-raised-button color="primary" [disabled]="loading">
+        <mat-icon *ngIf="!loading">check</mat-icon>
+        <mat-icon *ngIf="loading">hourglass_top</mat-icon>
+        {{ loading ? (editingId ? 'Updating...' : 'Processing...') : (editingId ? 'Update Book' : 'Add Book') }}
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

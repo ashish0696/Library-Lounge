@@ -1,0 +1,42 @@
+<div class="requests-wrap">
+  <h2>My Requests</h2>
+
+  <div *ngIf="loading" class="loadingBooks">
+    <div class="spinner" aria-hidden="true"></div>
+    <div class="sr-only">Loading requests…</div>
+  </div>
+
+  <div *ngIf="error && !loading" class="error">{{ error }}</div>
+
+  <div *ngIf="!loading && !error">
+    <table class="requests-table" *ngIf="items?.length; else empty">
+      <thead>
+        <tr>
+          <th>SR No</th>
+          <th>Book Title</th>
+          <th>Issued Date</th>
+          <th>Return Date</th>
+          <th>Status</th>
+          <th>Return</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let it of items; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ it.title || '-' }}</td>
+          <td>{{ formatDate($any(it).issued_at || $any(it).issue_date) }}</td>
+          <td>{{ formatDate($any(it).return_date || $any(it).returnDate) }}</td>
+          <td><span class="status" [ngClass]="(it.status || '') | lowercase">{{ it.status || '-' }}</span></td>
+          <td>
+            <button mat-button color="primary" class="request-return-btn" *ngIf="it.status === 'issued'" (click)="onRequestReturn(it)">Request Return</button>
+            <span *ngIf="it.status !== 'issued'">-</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #empty>
+      <div class="empty">You don't have any requests yet.</div>
+    </ng-template>
+  </div>
+</div>

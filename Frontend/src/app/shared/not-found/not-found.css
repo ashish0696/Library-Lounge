@@ -1,0 +1,49 @@
+.not-found-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px);
+    padding: 24px;
+    background: linear-gradient(#ecf7f9, #adebf6) padding-box,
+  linear-gradient(90deg, #0f4c75, #3282b8) border-box;
+    /* border: 4px solid transparent; */
+}
+
+.card {
+    background: linear-gradient(#d0f4fb, #4edbf4) padding-box,
+    linear-gradient(90deg, #0f4c75, #3282b8) border-box;
+    border: 4px solid transparent;
+    padding: 28px 32px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    max-width: 560px;
+}
+
+.card h1 {
+    font-size: 72px;
+    margin: 0;
+    color: #0f4c75
+}
+
+.card p {
+    color: #334155;
+    margin: 12px 0
+}
+
+.card .actions {
+    margin-top: 18px
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #0f677b;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none
+}
+
+.btn:hover {
+    background: #0d3f5a
+}

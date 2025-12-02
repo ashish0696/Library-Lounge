@@ -1,0 +1,59 @@
+.overdue-details {
+    padding: 1px 20px;
+    max-width: 520px;
+    background: linear-gradient(#f9fcfc, #c8edf4) padding-box,
+    linear-gradient(60deg, #9cc7d0, #6ea6b0) border-box;
+    border: 4px solid transparent;
+    /* border-radius: 8px; */
+    box-shadow: 5px 12px 30px rgba(0,0,0,0.18);
+    
+}
+
+.overdue-details h2 {
+    margin: 0 0 12px;
+    color: #032333;
+    text-align: center;
+}
+
+.overdue-details .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0
+}
+
+.overdue-details .label {
+    color: #172e4e;
+    font-weight: 600
+}
+
+.overdue-details .value {
+    color: #0f3340
+}
+
+.overdue-details hr {
+    border: none;
+    border-top: 1px solid #eef2f7;
+    margin: 12px 0
+}
+
+.overdue-details .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px
+}
+
+.actions button {
+    padding: 8px 14px;
+    margin: 5px;
+    background: #2087cc;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.actions button:hover {
+    background: #0d3f5a
+}
+

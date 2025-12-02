@@ -1,0 +1,120 @@
+.confirm-dialog {
+  padding: 20px;
+  max-width: 460px;
+  background:
+    linear-gradient(rgb(255, 255, 255), rgb(208, 206, 206)) padding-box,
+    linear-gradient(135deg, #168ca1, #3282b8) border-box;
+  /* border: 2px solid transparent; */
+  /* box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.08); */
+    box-shadow: 8px 15px 30px rgb(3, 18, 29);
+
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.confirm-dialog h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px 0;
+}
+
+.book-title {
+  margin: 8px 0 12px 0;
+  font-weight: 600;
+}
+
+.date-field {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.split-date .date-label {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+.date-field {
+  width: 100%;
+}
+
+.confirm-dialog ::ng-deep .mat-form-field {
+  width: 100%;
+}
+
+
+.confirm-dialog ::ng-deep .cdk-overlay-container .cdk-overlay-pane .mat-datepicker-content {
+  background: #fff !important;
+  color: #000 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18) !important;
+  border-radius: 8px !important;
+}
+
+/* Style the calendar cells inside the datepicker overlay */
+.confirm-dialog ::ng-deep .cdk-overlay-container .cdk-overlay-pane .mat-calendar {
+  --hover-bg: rgba(34, 147, 164, 0.14);
+}
+
+/* Disabled dates: show not-allowed cursor and dimmed appearance */
+.confirm-dialog ::ng-deep .cdk-overlay-container .cdk-overlay-pane .mat-calendar .mat-calendar-body-cell.mat-calendar-body-disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  color: rgba(0,0,0,0.45);
+}
+
+/* Make the disabled cell's inner content reflect the cursor too */
+.confirm-dialog ::ng-deep .cdk-overlay-container .cdk-overlay-pane .mat-calendar .mat-calendar-body-cell.mat-calendar-body-disabled .mat-calendar-body-cell-content {
+  cursor: not-allowed;
+}
+
+/* Hover highlight for selectable (non-disabled) dates */
+.confirm-dialog ::ng-deep .cdk-overlay-container .cdk-overlay-pane .mat-calendar .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
+  transition: transform 120ms ease, background-color 120ms ease;
+}
+
+.confirm-dialog ::ng-deep .cdk-overlay-container .cdk-overlay-pane .mat-calendar .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover .mat-calendar-body-cell-content {
+  background: var(--hover-bg);
+  color: #00303a; /* slightly darker text on hover */
+  transform: scale(1.06);
+  border-radius: 50%;
+}
+
+/* Ensure the cell content transition is smooth */
+.confirm-dialog ::ng-deep .cdk-overlay-container .cdk-overlay-pane .mat-calendar .mat-calendar-body-cell .mat-calendar-body-cell-content {
+  transition: background-color 120ms ease, transform 120ms ease;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.confirm-button {
+  background: linear-gradient(135deg, #b4ddf8, #2293a4);
+  color: rgb(3, 3, 3);
+}
+
+.confirm-button:hover {
+    background: linear-gradient(135deg, #0a3c45, #3282b8);
+    color: white;
+
+}
+
+.cancel-button {
+   border: 1px solid #70b6b6;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+.cancel-button:hover {
+    background: #127485; color: #fff;
+}
+
+
+.error {
+  color: #b00020;
+  font-size: 0.95rem;
+  margin-top: 6px;
+}

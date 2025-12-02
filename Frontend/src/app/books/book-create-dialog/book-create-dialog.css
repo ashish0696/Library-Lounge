@@ -1,0 +1,301 @@
+/* Book create dialog styles - consolidated and responsive */
+.create-book-dialog {
+  padding: 18px 20px;
+  width: 100%;
+  max-width: 560px;
+  /* keep dialog within viewport; inner content will scroll */
+  max-height: calc(100vh - 96px);
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(rgb(255, 255, 255), rgb(240, 240, 240)) padding-box;
+    /* linear-gradient(135deg, #07282e, #03131e) border-box; */
+    border: solid transparent;
+  /* border-radius: 3px; */
+  overflow: hidden;
+}
+
+.create-book-dialog .dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 8px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.create-book-dialog .full {
+  display: block;
+  margin: 8px 0;
+}
+
+/* content area scrolls independently when dialog is tall */
+.create-book-dialog .dialog-scroll {
+  overflow: auto;
+  padding-right: 4px; /* breathing room for scrollbar */
+  display: block;
+  /* subtract header + actions heights (approx) */
+  max-height: calc(100vh - 200px);
+}
+
+.create-book-dialog .actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.create-book-dialog button[mat-raised-button][color="primary"] {
+  background: linear-gradient(135deg, #b4ddf8, #2293a4);
+  color: rgb(3, 3, 3);
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+}
+.create-book-dialog button[mat-raised-button][color="primary"]:hover {
+  background: linear-gradient(135deg, #0a3c45, #3282b8);
+  color: #fff;
+}
+
+.create-book-dialog button[mat-button] {
+  border: 1px solid #70b6b6;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  min-height: 40px;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 0 12px;
+}
+.create-book-dialog button[mat-button]:hover {
+  background: #127485;
+  color: #fff;
+}
+
+.create-book-dialog .error {
+  color: #b00020;
+  font-size: 0.95rem;
+  margin-top: 6px;
+}
+
+/* Ensure Material form fields inside dialog take full width */
+.create-book-dialog ::ng-deep .mat-form-field {
+  width: 100%;
+}
+
+.create-book-dialog ::ng-deep .cdk-overlay-container .cdk-overlay-pane .mat-datepicker-content {
+  background: #fff !important;
+  color: #000 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18) !important;
+  border-radius: 8px !important;
+}
+
+/* Center overlay when this dialog is open. Scoped to avoid changing other dialogs. */
+.cdk-overlay-pane > .create-book-dialog {
+  margin: 20px auto;
+}
+
+/* Make sure form fields and icons look consistent on small screens */
+@media (max-width: 480px) {
+  .create-book-dialog {
+    border-radius: 6px;
+    padding: 12px;
+    max-width: calc(100vw - 32px);
+  }
+}
+/* Styled similarly to book-request-dialog.css for visual consistency */
+.create-book-dialog {
+	padding: 20px;
+	max-width: 520px;
+	background: linear-gradient(rgb(255, 255, 255), rgb(208, 206, 206)) padding-box,
+		linear-gradient(135deg, #168ca1, #3282b8) border-box;
+	box-shadow: 8px 15px 30px rgb(3, 18, 29);
+	border-radius: 6px;
+	overflow: hidden;
+}
+.create-book-dialog {
+	padding: 18px 20px;
+	width: 100%;
+	max-width: 560px;
+	/* limit height so dialog never grows beyond viewport; inner content scrolls */
+	max-height: calc(100vh - 96px);
+	display: flex;
+	flex-direction: column;
+	background: linear-gradient(rgb(255, 255, 255), rgb(240, 240, 240)) padding-box,
+		linear-gradient(135deg, #168ca1, #3282b8) border-box;
+	box-shadow: 8px 15px 30px rgba(3, 18, 29, 0.75);
+	border-radius: 8px;
+	overflow: hidden;
+}
+.create-book-dialog h2 {
+	display: flex;
+}
+.create-book-dialog .dialog-title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 8px 0;
+	font-size: 1.2rem;
+	font-weight: 600;
+}
+.create-book-dialog .book-title {
+	margin: 8px 0 12px 0;
+	font-weight: 600;
+}
+.create-book-dialog .full {
+	display: block;
+ 	margin: 8px 0;
+}
+.create-book-dialog .full {
+	display: block;
+	margin: 8px 0;
+}
+
+/* content area scrolls independently when dialog is tall */
+.create-book-dialog .dialog-scroll {
+	overflow: auto;
+	padding-right: 4px; /* small breathing room for scrollbar */
+	display: block;
+	/* subtract header + actions heights (approx) */
+	max-height: calc(100vh - 200px);
+}
+.create-book-dialog .actions {
+	display: flex;
+	gap: 8px;
+ 	justify-content: flex-end;
+ 	margin-top: 12px;
+}
+.create-book-dialog .actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+	margin-top: 12px;
+	align-items: center;
+}
+.create-book-dialog button[mat-raised-button][color="primary"] {
+		background: linear-gradient(135deg, #b4ddf8, #2293a4);
+		color: rgb(3, 3, 3);
+	min-height: 40px;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 0 14px;
+}
+.create-book-dialog button[mat-raised-button][color="primary"]:hover {
+	background: linear-gradient(135deg, #0a3c45, #3282b8);
+	color: #fff;
+}
+.create-book-dialog button[mat-button] {
+ 	border: 1px solid #70b6b6;
+ 	border-radius: 6px;
+ 	background: #fff;
+ 	cursor: pointer;
+	min-height: 40px;
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	padding: 0 12px;
+}
+.create-book-dialog button[mat-button]:hover {
+	background: #127485;
+	color: #fff;
+}
+/* Styled similarly to book-request-dialog.css for visual consistency */
+.create-book-dialog {
+	padding: 20px;
+	max-width: 520px;
+	background: linear-gradient(rgb(255, 255, 255), rgb(208, 206, 206)) padding-box,
+		linear-gradient(135deg, #168ca1, #3282b8) border-box;
+	box-shadow: 8px 15px 30px rgb(3, 18, 29);
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.create-book-dialog h2 {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 8px 0;
+	font-size: 1.25rem;
+}
+
+.create-book-dialog .book-title {
+	margin: 8px 0 12px 0;
+	font-weight: 600;
+}
+
+.create-book-dialog .full {
+	display: block;
+	margin: 8px 0;
+}
+
+/* Ensure Material form fields inside dialog take full width */
+.create-book-dialog ::ng-deep .mat-form-field {
+	width: 100%;
+}
+
+.create-book-dialog ::ng-deep .cdk-overlay-container .cdk-overlay-pane .mat-datepicker-content {
+	background: #fff !important;
+	color: #000 !important;
+	box-shadow: 0 8px 24px rgba(0,0,0,0.18) !important;
+	border-radius: 8px !important;
+}
+
+.create-book-dialog .actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+	margin-top: 12px;
+}
+
+/* Primary action (Add Book) — style the raised primary button */
+.create-book-dialog button[mat-raised-button][color="primary"] {
+	background: linear-gradient(135deg, #b4ddf8, #2293a4);
+	color: rgb(3, 3, 3);
+}
+.create-book-dialog button[mat-raised-button][color="primary"]:hover {
+	background: linear-gradient(135deg, #0a3c45, #3282b8);
+	color: #fff;
+}
+
+/* Cancel button styling */
+.create-book-dialog button[mat-button] {
+	border: 1px solid #70b6b6;
+	border-radius: 6px;
+	background: #fff;
+	cursor: pointer;
+}
+.create-book-dialog button[mat-button]:hover {
+	background: #127485;
+	color: #fff;
+}
+
+.create-book-dialog .error {
+	color: #b00020;
+	font-size: 0.95rem;
+	margin-top: 6px;
+}
+
+/* Center overlay when this dialog is open. Scoped to avoid changing other dialogs. */
+.cdk-overlay-pane > .create-book-dialog {
+	margin: 20px auto;
+}
+
+/* Make sure form fields and icons look consistent on small screens */
+@media (max-width: 480px) {
+	.create-book-dialog {
+		border-radius: 6px;
+		padding: 12px;
+		max-width: calc(100vw - 32px);
+	}
+}
+@media (max-width: 480px) {
+    .create-book-dialog .dialog-title {
+        font-size: 1.1rem;
+        gap: 6px;
+    }
+}
+

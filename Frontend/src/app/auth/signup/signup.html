@@ -1,0 +1,51 @@
+<div class="auth-wrap">
+  <div class="card">
+    <h2><mat-icon class="mt-iconSignup">card_membership</mat-icon> Sign Up</h2>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+      <label>Name</label>
+      <input formControlName="name" placeholder="Your name">
+      <div *ngIf="form.get('name')?.touched && form.get('name')?.invalid" style="color:red; font-size:0.9em;">
+        <span *ngIf="form.get('name')?.errors?.['required']">Name is required.</span>
+        <span *ngIf="form.get('name')?.errors?.['minlength']">Name must be at least 3 characters.</span>
+      </div>
+
+      <label>Email</label>
+      <input formControlName="email" type="email" placeholder="you@example.com">
+      <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" style="color:red; font-size:0.9em;">
+        <span *ngIf="form.get('email')?.errors?.['required']">Email is required.</span>
+        <span *ngIf="form.get('email')?.errors?.['email']">Invalid email format.</span>
+      </div>
+
+      <label>Phone</label>
+      <input formControlName="phone" placeholder="+91 9876543210">
+      <div *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid" style="color:red; font-size:0.9em;">
+        <span *ngIf="form.get('phone')?.errors?.['required']">Phone is required.</span>
+        <span *ngIf="form.get('phone')?.errors?.['pattern']">Phone must be a 10 digit number with optional country code.</span>
+      </div>
+
+      <label>Password</label>
+      <input type="password" formControlName="password" placeholder="••••••••">
+      <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" style="color:red; font-size:0.9em;">
+        <span *ngIf="form.get('password')?.errors?.['required']">Password is required.</span>
+        <span *ngIf="form.get('password')?.errors?.['minlength']">Password must be at least 8 characters.</span>
+        <span *ngIf="form.get('password')?.errors?.['pattern']">Password must contain uppercase, lowercase, number, and symbol.</span>
+      </div>
+
+      <label>Confirm Password</label>
+      <input type="password" formControlName="confirmPassword" placeholder="••••••••">
+      <div *ngIf="form.get('confirmPassword')?.touched && form.get('confirmPassword')?.invalid" style="color:red; font-size:0.9em;">
+        <span *ngIf="form.get('confirmPassword')?.errors?.['required']">Confirm password is required.</span>
+      </div>
+
+      <div *ngIf="form.errors?.['passwordMismatch'] && form.get('confirmPassword')?.touched" style="color:red; font-size:0.9em;">
+        Passwords do not match.
+      </div>
+
+      <div *ngIf="error" class="error">{{ error }}</div>
+      <div *ngIf="success" class="success">{{ success }}</div>
+
+      <button class="primary" [disabled]="form.invalid || loading"><mat-icon class="mt-iconAuth">person_add</mat-icon>Create Account</button>
+    </form>
+    <a class="muted" routerLink="/login"><mat-icon class="mt-iconAuth">how_to_reg</mat-icon>Back to login</a>
+  </div>
+</div>

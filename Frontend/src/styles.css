@@ -1,0 +1,73 @@
+You can add global styles to this file, and also import other style files
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cdk-overlay-container,
+.cdk-overlay-pane {
+	/* z-index: 10000 !important; */
+	/* pointer-events: auto !important; */
+	transform: translateY(-10px) !important;
+	white-space: nowrap !important;
+}
+
+.cdk-overlay-container .mat-datepicker-content,
+.cdk-overlay-container .mat-calendar,
+.mat-datepicker-content,
+.mat-calendar,
+.mat-datepicker-popup {
+	background: #e6e4e4 !important;
+	color:#010101 !important;
+	border-radius: 12px !important;
+	box-shadow: 0 10px 30px rgba(0,0,0,0.25) !important;
+	padding: 6px !important;
+	overflow: visible !important;
+}
+
+.mat-calendar-header,
+.mat-calendar-table-header,
+.mat-calendar-controls,
+.mat-calendar-body-cell,
+.mat-calendar-body-label {
+	color: rgba(0,0,0,0.87) !important;
+}
+
+.cdk-overlay-backdrop {
+	background-color: rgba(0,0,0,0.10) !important;
+}
+
+.mat-datepicker-toggle { margin-left: 4px !important; }
+
+.toast-success {
+	background: linear-gradient(90deg,#66bb6a,#43a047) !important;
+	color: #fff !important;
+	font-weight: 600;
+	/* border-radius: 6px !important; */
+}
+.toast-error {
+	background: linear-gradient(90deg,#ef5350,#e53935) !important;
+	color: #fff !important;
+	font-weight: 600;
+	/* border-radius: 6px !important; */
+}
+
+/* Ensure datepicker disabled cells show a not-allowed cursor (override Material default) */
+.cdk-overlay-container .mat-calendar .mat-calendar-body-cell.mat-calendar-body-disabled,
+.cdk-overlay-container .mat-calendar .mat-calendar-body-cell.mat-calendar-body-disabled .mat-calendar-body-cell-content {
+	cursor: not-allowed !important;
+	opacity: 0.55 !important;
+	color: rgba(0,0,0,0.45) !important;
+}
+
+/* Make selectable calendar cells show a pointer and a subtle hover transition */
+.cdk-overlay-container .mat-calendar .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
+	cursor: pointer !important;
+	transition: background-color 120ms ease, transform 120ms ease;
+}
+
+.cdk-overlay-container .mat-calendar .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover .mat-calendar-body-cell-content {
+	transform: scale(1.56);
+}
+
+
+

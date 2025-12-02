@@ -1,0 +1,104 @@
+.home-wrap {
+  min-height: calc(100vh - 20px);
+  display: grid;
+  padding: 16px;
+  background:
+    linear-gradient(rgba(249, 249, 249, 0.16), rgba(246, 247, 249, 0)),
+    url('/glasses.jpg') center/cover no-repeat;
+  background-color: #f8fafc;
+}
+
+.hero-card {
+  max-width: 720px;
+  width: 100%;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 200px;
+  text-align: center;
+  border-radius: 15px;
+  /* box-shadow: 0px 15px 30px rgb(3, 18, 29); */
+  color: #ffffff;
+  padding: 80px 24px;
+}
+
+h1 {
+  margin: 0 0 12px;
+  color: #fff8dc;
+  font-size: 44px;
+}
+
+p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 18px;
+  margin-top: 12px
+}
+
+.mt-icon {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 2px;
+  padding-top: 3px;
+
+}
+
+.mt-icon1 {
+  font-size: 18px;
+  color: #fdfbfb;
+  vertical-align: middle;
+  margin-right: 2px;
+  padding-top: 3px;
+
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 28px
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #0b1220;
+  background: #fff
+}
+
+.btn:hover {
+  background: #dbdbdc
+}
+
+.btn.primary {
+  background: #16cfef;
+  color: #0b1724
+}
+
+.btn.primary:hover {
+  background: #127485;
+  color: white
+}
+
+@media (max-width: 575.98px) {
+  .home-wrap {
+    padding: 8px
+  }
+
+  .hero-card {
+    padding-top: 60px;
+    border-radius: 12px
+  }
+
+  h1 {
+    font-size: 28px
+  }
+
+  p {
+    font-size: 14px;
+    padding-left: 10px;
+    padding-right: 10px
+  }
+}

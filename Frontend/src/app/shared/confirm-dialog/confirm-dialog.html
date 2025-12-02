@@ -1,0 +1,9 @@
+<div class="confirm-dialog">
+  <h3><mat-icon>report_problem</mat-icon> {{ data?.title || 'Confirm' }}</h3>
+  <p class="message">{{ data?.message || 'Are you sure?' }}</p>
+
+  <div class="actions">
+    <button mat-button class="cancel-button" (click)="cancel()"><mat-icon>close</mat-icon> Cancel</button>
+    <button mat-raised-button color="warn" class="confirm-button" (click)="confirm()"><mat-icon>check</mat-icon> Confirm</button>
+  </div>
+</div>

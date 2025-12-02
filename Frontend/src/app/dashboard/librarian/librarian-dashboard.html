@@ -1,0 +1,285 @@
+<div class="lib-wrap">
+  <h1  class="lib-Dash">Librarian Dashboard</h1>
+
+  <div class="boxes">
+    <div class="small-box bg-gradient-info">
+      <div class="inner">
+        <h3>{{ counts.books }}</h3>
+        <p>Books</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-book"></i>
+      </div>
+      <a class="small-box-footer" routerLink="/books">
+        More info <i class="fas fa-arrow-circle-right"></i>
+      </a>
+    </div>
+
+      <div class="small-box bg-gradient-success">
+      <div class="inner">
+        <h3>{{ counts.issued }}</h3>
+        <p>Issued</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-book-reader"></i>
+      </div>
+      <a class="small-box-footer" (click)="switchTab('issued')" role="button">
+        More info <i class="fas fa-arrow-circle-right"></i>
+      </a>
+    </div>
+
+    <div class="small-box bg-gradient-warning">
+      <div class="inner">
+        <h3>{{ counts.returned }}</h3>
+        <p>Returned</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-undo"></i>
+      </div>
+      <a class="small-box-footer" (click)="switchTab('returned')" role="button">
+        More info <i class="fas fa-arrow-circle-right"></i>
+      </a>
+    </div>
+
+    <div class="small-box bg-gradient-danger">
+      <div class="inner">
+        <h3>{{ counts.overdue }}</h3>
+        <p>Overdue</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <a class="small-box-footer" (click)="switchTab('overdue')" role="button">
+        More info <i class="fas fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="lists">
+    <div class="tabs">
+      <button [class.active]="activeTab==='requests'" (click)="switchTab('requests')">Book Requests</button>
+  <button [class.active]="activeTab==='daily'" (click)="switchTab('daily')">Daily Issued</button>
+  <button [class.active]="activeTab==='returning'" (click)="switchTab('returning')">Return Requests</button>
+  <button [class.active]="activeTab==='issued'" (click)="switchTab('issued')">Approved Books </button>
+      <button [class.active]="activeTab==='returned'" (click)="switchTab('returned')">Returned Books</button>
+      <button [class.active]="activeTab==='overdue'" (click)="switchTab('overdue')">Overdue Books</button>
+      <button [class.active]="activeTab==='all'" (click)="switchTab('all')">All Issued</button>
+    </div>
+
+    <div class="table-wrap">
+      <div *ngIf="loading" class="loadingBooks">
+        <div class="spinner" aria-hidden="true"></div>
+      </div>
+
+  <table *ngIf="!loading && activeTab==='requests' && requestedList && requestedList.length > 0" class="requests-table">
+        <thead>
+          <tr>
+            <th>SR No</th>
+            <th>Book Title</th>
+            <th>Member</th>
+            <th>Issued Date</th>
+            <th>Return Date</th>
+            <th>Approval</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let it of requestedList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ it.title || it.book_title || it.name || '-' }}</td>
+            <td>{{ it.memberName || it.user_name || it.user?.name || '-' }}</td>
+            <td>{{ formatDate(it.issue_date || it.issued_at) }}</td>
+            <td>{{ formatDate(it.return_date) }}</td>
+            <td>
+              <ng-container *ngIf="isApprovalAllowed(it); else noApproval">
+                <ng-container *ngIf="getIssueId(it) as issueKey">
+                  <select [(ngModel)]="approvalSelections[issueKey]" [ngModelOptions]="{standalone: true}">
+                    <option value="">Select</option>
+                    <option value="approve">Approve</option>
+                    <option value="reject">Reject</option>
+                  </select>
+                  <button type="button" class="apply-btn" (click)="applyApproval(it)" [disabled]="!approvalSelections[issueKey] || approvalLoading[issueKey]">
+                    {{ approvalLoading[issueKey] ? 'Applying...' : 'Apply' }}
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="!getIssueId(it)">
+                  -
+                </ng-container>
+              </ng-container>
+              <ng-template #noApproval>-</ng-template>
+            </td>
+            <td><span [ngClass]="['status', (it.status || it.state || '') | lowercase]">{{ it.status || it.state || '-' }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="!loading && activeTab==='all' && (!allIssued || allIssued.length === 0)" class="no-data">
+        Unfortunately, No Data Available For this Tab
+      </div>
+
+  <!-- All Issued shown as last tab -->
+  <table *ngIf="!loading && activeTab==='all' && allIssued && allIssued.length > 0" class="requests-table">
+        <thead>
+          <tr>
+            <th>SR No</th>
+            <th>Book Title</th>
+            <th>Member</th>
+            <th>Issued Date</th>
+            <th>Return Date</th>
+            <th>Approval</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let it of allIssued; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ it.title || it.book_title || it.name || '-' }}</td>
+            <td>{{ it.memberName || it.user_name || it.user?.name || '-' }}</td>
+            <td>{{ formatDate(it.issue_date || it.issued_at) }}</td>
+            <td>{{ formatDate(it.return_date) }}</td>
+            <td>
+              <ng-container *ngIf="isApprovalAllowed(it); else noApproval">
+                <ng-container *ngIf="getIssueId(it) as issueKey">
+                  <select [(ngModel)]="approvalSelections[issueKey]" [ngModelOptions]="{standalone: true}">
+                    <option value="">Select</option>
+                    <option value="approve">Approve</option>
+                    <option value="reject">Reject</option>
+                  </select>
+                  <button type="button" class="apply-btn" (click)="applyApproval(it)" [disabled]="!approvalSelections[issueKey] || approvalLoading[issueKey]">
+                    {{ approvalLoading[issueKey] ? 'Applying...' : 'Apply' }}
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="!getIssueId(it)">
+                  -
+                </ng-container>
+              </ng-container>
+              <ng-template #noApproval>-</ng-template>
+            </td>
+            <td><span [ngClass]="['status', (it.status || it.state || '') | lowercase]">{{ it.status || it.state || '-' }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="!loading && activeTab==='all' && (!allIssued || allIssued.length === 0)" class="no-data">
+        Unfortunately, No Data Available For this Tab
+      </div>
+
+  <table *ngIf="!loading && activeTab==='daily' && dailyIssued && dailyIssued.length > 0" class="requests-table">
+        <thead>
+          <tr><th>SR No</th><th>Book Title</th><th>Member</th><th>Issued Date</th><th>Return Date</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let it of dailyIssued; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ it.title || it.book_title || it.name || '-' }}</td>
+            <td>{{ it.memberName || it.user_name || it.user?.name || '-' }}</td>
+            <td>{{ formatDate(it.issue_date || it.issued_at) }}</td>
+            <td>{{ formatDate(it.return_date) }}</td>
+            <td><span [ngClass]="['status', (it.status || it.state || '') | lowercase]">{{ it.status || it.state || '-' }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="!loading && activeTab==='daily' && (!dailyIssued || dailyIssued.length === 0)" class="no-data">
+        Unfortunately, No Data Available For this Tab
+      </div>
+
+      <!-- Return Requests tab -->
+      <table *ngIf="!loading && activeTab==='returning' && returningRequestsList && returningRequestsList.length > 0" class="requests-table">
+        <thead>
+          <tr>
+            <th>SR No</th>
+            <th>Book Title</th>
+            <th>Member</th>
+            <th>Issued Date</th>
+            <th>Return Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let it of returningRequestsList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ it.title || it.book_title || it.name || '-' }}</td>
+            <td>{{ it.memberName || it.user_name || it.user?.name || '-' }}</td>
+            <td>{{ formatDate(it.issue_date || it.issued_at || it.issuedAt) }}</td>
+            <td>{{ formatDate(it.return_date || it.returnDate) }}</td>
+            <td><span [ngClass]="['status', (it.status || it.state || '') | lowercase]">{{ it.status || it.state || '-' }}</span></td>
+            <td>
+              <ng-container *ngIf="getIssueId(it) as iid; else noAction">
+                <button type="button" class="confirm-btn" (click)="onConfirmReturn(it)" [disabled]="confirmLoading[iid]">
+                  {{ confirmLoading[iid] ? 'Confirming...' : 'Confirm Return' }}
+                </button>
+              </ng-container>
+              <ng-template #noAction>-</ng-template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="!loading && activeTab==='returning' && (!returningRequestsList || returningRequestsList.length === 0)" class="no-data">
+        Unfortunately, No Data Available For this Tab
+      </div>
+
+      <table *ngIf="!loading && activeTab==='issued' && issuedBooksList && issuedBooksList.length > 0" class="requests-table">
+        <thead>
+          <tr>
+            <th>SR No</th>
+            <th>Book Title</th>
+            <th>Member</th>
+            <th>Issued Date</th>
+            <th>Return Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let it of issuedBooksList; let i = index">
+            <td>{{ i + 1 }}</td>
+              <td>{{ it.title || it.book_title || it.name || '-' }}</td>
+              <td>{{ it.memberName || it.user_name || it.user?.name || '-' }}</td>
+            <td>{{ formatDate(it.issue_date || it.issued_at || it.issuedAt) }}</td>
+            <td>{{ formatDate(it.return_date || it.returnDate) }}</td>
+            <td><span [ngClass]="['status', (it.status || it.state || '') | lowercase]">{{ it.status || it.state || '-' }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="!loading && activeTab==='issued' && (!issuedBooksList || issuedBooksList.length === 0)" class="no-data">
+        Unfortunately, No Data Available For this Tab
+      </div>
+
+  <table *ngIf="!loading && activeTab==='overdue' && overdueList && overdueList.length > 0" class="requests-table">
+        <thead>
+          <tr><th>SR No</th><th>Book Title</th><th>Member</th><th>Issued Date</th><th>Return Date</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let it of overdueList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ it.title || it.book_title || it.name || '-' }}</td>
+            <td>{{ it.memberName || it.user_name || it.user?.name || '-' }}</td>
+            <td>{{ formatDate(it.issue_date || it.issued_at || it.issuedAt) }}</td>
+            <td>{{ formatDate(it.return_date || it.returnDate) }}</td>
+            <td><span [ngClass]="['status', (it.status || it.state || '') | lowercase]">{{ it.status || it.state || '-' }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="!loading && activeTab==='overdue' && (!overdueList || overdueList.length === 0)" class="no-data">
+        Unfortunately, No Data Available For this Tab
+      </div>
+
+  <table *ngIf="!loading && activeTab==='returned' && returnedBooksList && returnedBooksList.length > 0" class="requests-table">
+        <thead>
+          <tr><th>SR No</th><th>Book Title</th><th>Member</th><th>Issued Date</th><th>Return Date</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let it of returnedBooksList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ it.title || it.book_title || it.name || '-' }}</td>
+            <td>{{ it.memberName || it.user_name || it.user?.name || '-' }}</td>
+            <td>{{ formatDate(it.issue_date || it.issued_at || it.issuedAt) }}</td>
+            <td>{{ formatDate(it.return_date || it.returnDate) }}</td>
+            <td><span [ngClass]="['status', (it.status || it.state || 'returned') | lowercase]">{{ it.status || it.state || 'returned' }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="!loading && activeTab==='returned' && (!returnedBooksList || returnedBooksList.length === 0)" class="no-data">
+        Unfortunately, No Data Available For this Tab
+      </div>
+    </div>
+  </div>
+</div>

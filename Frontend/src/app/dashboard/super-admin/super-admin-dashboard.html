@@ -1,0 +1,131 @@
+<div class="lib-wrap">
+  <!-- <h1 class="lib-Dash">Super Admin Dashboard</h1> -->
+
+  <div class="boxes">
+    <div class="small-box bg-gradient-info">
+      <div class="inner">
+        <h3>{{ stats.totalBooks }}</h3>
+        <p>Total Books</p>
+      </div>
+      <div class="icon"><i class="fas fa-book"></i></div>
+      <a class="small-box-footer" routerLink="/books">More info <i class="fas fa-arrow-circle-right"></i></a>
+    </div>
+
+    <div class="small-box bg-gradient-success">
+      <div class="inner">
+        <h3>{{ stats.totalUsers }}</h3>
+        <p>Total Users</p>
+      </div>
+      <div class="icon"><i class="fas fa-users"></i></div>
+      <a class="small-box-footer" (click)="switchTab('users')" role="button">More info <i class="fas fa-arrow-circle-right"></i></a>
+    </div>
+
+    <div class="small-box bg-gradient-warning">
+      <div class="inner">
+        <h3>{{ stats.totalIssuedBooks }}</h3>
+        <p>Issued Books</p>
+      </div>
+      <div class="icon"><i class="fas fa-book-reader"></i></div>
+      <a class="small-box-footer" (click)="switchTab('issued')" role="button">More info <i class="fas fa-arrow-circle-right"></i></a>
+    </div>
+
+    <div class="small-box bg-gradient-danger">
+      <div class="inner">
+        <h3>{{ stats.overdueBooks }}</h3>
+        <p>Overdue Books</p>
+      </div>
+      <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+      <a class="small-box-footer" (click)="switchTab('overdue')" role="button">More info <i class="fas fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+
+  <div class="lists">
+    <div class="tabs">
+      <!-- <button [class.active]="activeTab==='stats'" (click)="switchTab('stats')">Overview</button> -->
+             <button [class.active]="activeTab==='daily'" (click)="switchTab('daily')">Daily Updates</button>
+
+      <button [class.active]="activeTab==='users'" (click)="switchTab('users')">Users</button>
+      <button [class.active]="activeTab==='issued'" (click)="switchTab('issued')">Issued Books</button>
+      <button [class.active]="activeTab==='overdue'" (click)="switchTab('overdue')">Overdue Books</button>
+    </div>
+
+    <div class="table-wrap">
+      <div *ngIf="activeTab==='users'">
+        <table class="requests-table">
+          <thead>
+            <tr><th>SR No</th><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of users; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ u.name || u.fullName || '-' }}</td>
+              <td>{{ u.email || '-' }}</td>
+              <td>{{ u.role || '-' }}</td>
+              <td>{{ formatDate(u.created_at || u.createdAt) }}</td>
+              <td><button type="button" class="delete-btn" (click)="confirmDeleteUser(u)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="activeTab==='daily'">
+        <table class="requests-table">
+          <thead>
+            <tr><th>SR No</th><th>Book Title</th><th>Member</th><th>Issued Date</th><th>Return Date</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let it of dailyIssued; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ it.title || it.book_title || '-' }}</td>
+              <td>{{ it.memberName || it.user_name || it.user?.name || '-' }}</td>
+              <td>{{ formatDate(it.issue_date || it.issued_at) }}</td>
+              <td>{{ formatDate(it.return_date) }}</td>
+              <td><span [ngClass]="['status', (it.status || it.state || '') | lowercase]">{{ it.status || it.state || '-' }}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="activeTab==='issued'">
+        <table class="requests-table">
+          <thead>
+            <tr><th>SR No</th><th>Book Title</th><th>Member</th><th>Issued Date</th><th>Return Date</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let it of issuedList; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ it.title || it.book_title || '-' }}</td>
+              <td>{{ it.memberName || it.user_name || it.user?.name || '-' }}</td>
+              <td>{{ formatDate(it.issue_date || it.issued_at) }}</td>
+              <td>{{ formatDate(it.return_date) }}</td>
+              <td><span [ngClass]="['status', (it.status || it.state || '') | lowercase]">{{ it.status || it.state || '-' }}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="activeTab==='overdue'">
+        <table class="requests-table">
+          <thead>
+            <tr><th>SR No</th><th>Book Title</th><th>Member</th><th>Issued Date</th><th>Return Date</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let it of overdueList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ it.title || it.book_title || '-' }}</td>
+                <td>{{ it.memberName || it.user_name || it.user?.name || '-' }}</td>
+                <td>{{ formatDate(it.issue_date || it.issued_at) }}</td>
+                <td>{{ formatDate(it.return_date) }}</td>
+                <td><span [ngClass]="['status', (it.status || it.state || '') | lowercase]">{{ it.status || it.state || '-' }}</span></td>
+                <td><button type="button" class="details-btn" (click)="openOverdueDetails(it)">Details</button></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="activeTab==='stats'" class="overview">
+        <p>Use the boxes above to view quick counts. Use the Users tab to manage users.</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,136 @@
+# --- Node / JavaScript build artifacts ---
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+.env
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Parcel cache
+.cache/
+.parcel-cache/
+
+# Next.js / Nuxt / Remix build output (in case of future expansion)
+.next/
+out/
+.nuxt/
+.remix-cache/
+
+# Build / dist artifacts
+dist/
+build/
+coverage/
+
+# Temporary folders
+.tmp/
+.temp/
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Logs directory (already have logs/ folder but keep it out of git)
+logs/
+
+# Local env overrides
+.local/
+
+# TypeScript metadata
+*.tsbuildinfo
+
+# PM2 logs / pids
+.pm2/
+
+# Coverage
+lcov.info
+
+# Yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Lock files (optional to ignore extra managers not in use)
+# If you only use npm, you can ignore others
+# yarn.lock
+# pnpm-lock.yaml
+
+# Uploaded files / user content (adjust as needed)
+uploads/
+uploads/**
+
+# Temp test artifacts
+*.tmp
+*.temp
+
+# Jest / testing
+jest-html-reporters-*.html
+
+# Mac-specific
+.AppleDouble
+.LSOverride
+
+# Windows image file caches
+ehthumbs.db
+
+# Windows shortcut files
+*.lnk
+
+# Storybook
+.storybook-out
+storybook-static
+
+# Swagger generated files (if any)
+/swagger.json
+
+# SonarQube
+.scannerwork/
+
+# Terraform / infra (just in case future infra as code)
+.terraform/
+
+# Ignore lockfile backups
+package-lock.json.*
+
+# Backup files
+*~
+*.orig
+
+# End of file

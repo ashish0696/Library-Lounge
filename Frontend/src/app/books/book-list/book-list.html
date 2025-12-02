@@ -1,0 +1,37 @@
+<div class="books-wrap">
+  <div class="search-row">
+    <input type="text" class="book-search" placeholder="Search books by title, author or category..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange($event)" />
+    <button *ngIf="isLibrarian" class="add-book-btn" (click)="openAddBook()"><mat-icon>add</mat-icon> Add Book</button>
+  </div>
+
+  <div *ngIf="loading" class="loadingBooks" role="status" aria-live="polite">
+    <div class="spinner" aria-hidden="true"></div>
+    <div class="sr-only">Loading books…</div>
+  </div>
+  <div *ngIf="errorMsg && !loading" class="error">{{ errorMsg }}</div>
+  <div class="grid" *ngIf="!loading && !errorMsg">
+    <div class="card" *ngFor="let b of filteredBooks">
+      <div class="card-media">
+        <img *ngIf="b.imageUrl" [src]="b.imageUrl" [alt]="b.title" class="card-image" />
+        <div *ngIf="!b.imageUrl" class="card-placeholder"></div>
+      </div>
+      <div class="card-overlay">
+        <div class="card-info">
+          <h3>{{ b.title }}</h3>
+          <p><strong>Author:</strong> {{ b.author }}</p>
+          <p><strong>Publisher:</strong> {{ b.publisher }}</p>
+          <p><strong>Category:</strong> {{ b.category }}</p>
+          <div class="status" [ngClass]="{ available: b.status === 'available', reserved: b.status !== 'available' }">{{ b.status }}</div>
+          <!-- If user is librarian show Edit/Delete buttons, otherwise show Request Issue -->
+          <ng-container *ngIf="isLibrarian; else userActions">
+            <button class="edit-btn" (click)="$event.stopPropagation(); editBook(b)"><mat-icon>edit</mat-icon> Edit</button>
+            <button class="delete-btn" (click)="$event.stopPropagation(); deleteBook(b)"><mat-icon>delete</mat-icon> Delete</button>
+          </ng-container>
+          <ng-template #userActions>
+            <button class="borrow-btn" (click)="$event.stopPropagation(); requestIssue(b)"><mat-icon class="mt-icon">library_add</mat-icon>Request Issue</button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

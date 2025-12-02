@@ -1,0 +1,29 @@
+<div class="confirm-dialog">
+  <h3><mat-icon>book</mat-icon> Request Book Issue</h3>
+  <p class="book-title">Requesting: <strong>{{ data.title }}</strong></p>
+
+  <div class="split-date">
+    <!-- <label class="date-label">Return date</label> -->
+
+    <mat-form-field appearance="outline" class="date-field">
+      <mat-label>Return date</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="returnDate" (dateChange)="onCalendarChange($event)" [min]="minDate" placeholder="YYYY-MM-DD" />
+      <mat-datepicker-toggle matSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>insert_invitation</mat-icon>
+      </mat-datepicker-toggle>
+      <!-- <mat-hint>Format: YYYY-MM-DD</mat-hint> -->
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="actions">
+    <button class="confirm-button" mat-raised-button color="primary" (click)="confirm()" [disabled]="loading">
+      <mat-icon *ngIf="!loading">check</mat-icon>
+      <mat-icon *ngIf="loading">hourglass_top</mat-icon>
+      {{ loading ? 'Requesting...' : 'Confirm' }}
+    </button>
+    <button class="cancel-button" mat-button (click)="cancel()" [disabled]="loading"><mat-icon class="mat-icon">clear</mat-icon>Cancel</button>
+  </div>
+</div>

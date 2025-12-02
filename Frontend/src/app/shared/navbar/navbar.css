@@ -1,0 +1,89 @@
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 28px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: linear-gradient(#eef6fb, #049eb9) padding-box,
+              linear-gradient(90deg, #0f4c75, #3282b8) border-box;
+  border-bottom: 0.5px solid transparent;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+#brand {
+  font-weight: 700;
+  font-size: 30px;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 8px;
+}
+
+
+.nav-logo {
+  height: 34px;
+  width: 34px;
+  object-fit: contain;
+}
+
+.spacer { flex: 1; }
+
+.nav a {
+  text-decoration: none;
+  color: #0b1220;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-left: 6px;
+  margin-right: 6px;
+  transition: background .15s ease, color .15s ease;
+}
+
+.nav a:hover { background: #127485; color: #fff; }
+/* .nav a.active { color: #65caf9; font-weight: 600; } */
+
+#brand:hover, #brand:focus {
+  background: transparent; 
+  color: #0f6aa1; 
+  transition: color 150ms ease;
+}
+
+.nav button {
+  margin-left: 6px;
+  margin-right: 6px;
+  padding: 7px 14px;
+  border: 1px solid #70b6b6;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+#home:hover{
+    background: #127485; color: #fff;
+
+}
+
+.nav button:hover { background: #127485; color: #fff; }
+
+.mt-icon {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 2px;
+    padding-top: 3px;
+
+}
+.mt-iconAuth {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 2px;
+  padding-top: 3px;
+}
+
+
+
+@media (max-width: 575.98px) {
+  .nav { padding: 8px 10px; gap: 8px; }
+  .nav a, .nav button { padding: 6px 8px; font-size: 14px; }
+  .nav-logo { height: 28px; width: 28px; }
+}
